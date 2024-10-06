@@ -1,0 +1,10 @@
+services:
+  illm-flask:
+    image: siddh34/illm-flask:latest
+    container_name: illm-flask
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_APP=app.py
+      - FLASK_ENV=development
+      - FLASK_RUN_HOST=

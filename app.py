@@ -71,4 +71,4 @@ def upload_file():
         return jsonify({"error": "Failed to send data to Go server"}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0',debug=True)

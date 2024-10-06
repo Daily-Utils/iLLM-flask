@@ -1,0 +1,38 @@
+name: Push to Docker Hub
+
+on:
+  # push:
+  #   branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      image-tag:
+        description: 'Tag to use for the Docker image'
+        required: true
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v1 
+      with:
+        username: ${{ secrets.DOCKER_HUB_USERNAME }}
+        password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+    - name: Build and push Docker image to specific tag ${{ github.event.inputs.image-tag }}
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        push: true
+        tags: siddh34/illm-flask:${{ github.event.inputs.image-tag }}
+
+    - name: Build and push Docker image push to latest tag
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        push: true
+        tags: siddh34/illm-flask
