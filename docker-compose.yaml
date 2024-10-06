@@ -1,0 +1,22 @@
+services:
+  illm-flask:
+    image: siddh34/illm-flask:latest
+    container_name: illm-flask
+    ports:
+      - "5000:5000"
+    networks:
+      - illm2
+
+  go-server:
+    image: siddh34/illm-golang:0.0.1
+    environment:
+      LLAMA_URL: ${LLAMA_URL}
+    ports:
+      - "8081:8090"
+    networks:
+      - illm2
+
+networks:
+  illm2:
+    driver: bridge
+
