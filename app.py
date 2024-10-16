@@ -10,6 +10,7 @@ app = Flask(__name__)
 
 load_dotenv()
 go_server_url = os.getenv("GO_SERVER_URL")
+model = os.getenv("MODEL")
 
 
 def process_csv(file):
@@ -19,7 +20,7 @@ def process_csv(file):
     headers = csv_reader.fieldnames
     data = [row for row in csv_reader]
 
-    return {"body": str({"headers": headers, "data": data})}
+    return {"model": model, "body": str({"headers": headers, "data": data})}
 
 
 def process_pdf(file):
@@ -31,21 +32,7 @@ def process_pdf(file):
 
     data = [{"Content": text} for text in text_data]
 
-    return {"body": {"data": str(data)}}
-
-
-@app.route("/csv_response", methods=["POST"])
-def csv_response():
-    data = request.json
-    print("Received CSV data: " + str(data))
-    return jsonify({"message": data}), 200
-
-
-@app.route("/pdf_response", methods=["POST"])
-def pdf_response():
-    data = request.json
-    print("Received PDF data: " + str(data))
-    return jsonify({"message": data}), 200
+    return {"model": model, "body": {"data": str(data)}}
 
 
 @app.route("/send", methods=["POST"])
@@ -62,20 +49,22 @@ def upload_file():
     else:
         return jsonify({"error": "Unsupported file type"}), 400
 
-    print("result: " + str(result))
-
     response = None
 
     if file.filename.endswith(".csv"):
-        response = requests.post(go_server_url + "/csv", result)
+        response = requests.post(go_server_url + "/context/csv", json=result)
     elif file.filename.endswith(".pdf"):
-        response = requests.post(go_server_url + "/pdf", result)
+        response = requests.post(go_server_url + "/context/pdf", json=result)
 
     if response.status_code == 200:
         return jsonify({"message": "Data successfully sent to Go server"}), 200
     else:
+        print(response.text + " " + str(response.status_code))
         return jsonify({"error": "Failed to send data to Go server"}), 500
 
+@app.route("/", methods=["GET"])
+def index():
+    return "Hello, World!"
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)
