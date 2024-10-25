@@ -1,0 +1,88 @@
+{
+	"swagger": "2.0",
+	"info": {
+		"description": "This is the API documentation for the File Upload API.",
+		"version": "1.0.0",
+		"title": "File Upload API"
+	},
+	"host": "localhost:5000",
+	"basePath": "/",
+	"tags": [
+		{
+			"name": "file",
+			"description": "File upload operations"
+		}
+	],
+	"schemes": ["http"],
+	"paths": {
+		"/send": {
+			"post": {
+				"tags": ["file"],
+				"summary": "Upload a file",
+				"description": "Uploads a CSV or PDF file and processes it.",
+				"consumes": ["multipart/form-data"],
+				"produces": ["application/json"],
+				"parameters": [
+					{
+						"in": "formData",
+						"name": "file",
+						"type": "file",
+						"required": true,
+						"description": "The file to upload (CSV or PDF)."
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Data successfully sent to Go server",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"message": {
+									"type": "string"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Invalid request",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"error": {
+									"type": "string"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Failed to send data to Go server",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"error": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/": {
+			"get": {
+				"tags": ["default"],
+				"summary": "Index endpoint",
+				"description": "Returns a simple greeting message.",
+				"produces": ["text/plain"],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"schema": {
+							"type": "string"
+						}
+					}
+				}
+			}
+		}
+	}
+}

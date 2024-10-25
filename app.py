@@ -4,9 +4,19 @@ import io
 import requests
 from PyPDF2 import PdfReader
 from dotenv import load_dotenv
+from flask_swagger_ui import get_swaggerui_blueprint
 import os
 
 app = Flask(__name__)
+SWAGGER_URL = "/swagger"
+API_URL = "/static/swagger.json"
+
+swagger_ui_blueprint = get_swaggerui_blueprint(
+    SWAGGER_URL, API_URL, config={"app_name": "iLLM flask"}
+)
+
+app.register_blueprint(swagger_ui_blueprint, url_prefix=SWAGGER_URL)
+
 
 load_dotenv()
 go_server_url = os.getenv("GO_SERVER_URL")
