@@ -3,3 +3,4 @@ requests==2.26.0
 PyPDF2==3.0.0
 python-dotenv==0.20.0
 werkzeug==2.0
+flask_swagger_ui==4.11.1
