@@ -37,8 +37,49 @@
 						"schema": {
 							"type": "object",
 							"properties": {
-								"message": {
+								"model": {
 									"type": "string"
+								},
+								"created_at": {
+									"type": "string",
+									"format": "date-time"
+								},
+								"response": {
+									"type": "string"
+								},
+								"done": {
+									"type": "boolean"
+								},
+								"total_duration": {
+									"type": "integer",
+									"format": "int64"
+								},
+								"load_duration": {
+									"type": "integer",
+									"format": "int64"
+								},
+								"prompt_eval_count": {
+									"type": "integer",
+									"format": "int64"
+								},
+								"prompt_eval_duration": {
+									"type": "integer",
+									"format": "int64"
+								},
+								"eval_count": {
+									"type": "integer",
+									"format": "int64"
+								},
+								"eval_duration": {
+									"type": "integer",
+									"format": "int64"
+								},
+								"context": {
+									"type": "array",
+									"items": {
+										"type": "integer",
+										"format": "int64"
+									}
 								}
 							}
 						}
