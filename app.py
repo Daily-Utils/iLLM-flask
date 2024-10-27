@@ -1,10 +1,10 @@
-from flask import Flask, json, request, jsonify
+from flask import Flask, request, jsonify
 import requests
 from dotenv import load_dotenv
 from flask_swagger_ui import get_swaggerui_blueprint
 import os
 from flask_cors import CORS
-from utils import process_csv, process_pdf, json_parse_datetime
+from utils import process_csv, process_pdf
 
 app = Flask(__name__)
 CORS(app)
@@ -17,11 +17,9 @@ swagger_ui_blueprint = get_swaggerui_blueprint(
 
 app.register_blueprint(swagger_ui_blueprint, url_prefix=SWAGGER_URL)
 
-
 load_dotenv()
 go_server_url = os.getenv("GO_SERVER_URL")
 model = os.getenv("MODEL")
-
 
 @app.route("/send", methods=["POST"])
 def upload_file():
